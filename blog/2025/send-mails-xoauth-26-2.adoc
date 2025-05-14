@@ -1,34 +1,36 @@
-:title: XOAUTH2 for Keycloak: Secure e-mail delivery with OAuth2
+:title: XOAUTH2: Secure email delivery with OAuth2
 :date: 2025-05-28
 :publish: true
 :author: [Sebastian Rose]
 :preview: smtp-auth-preview.png
-:summary: Learn how to securely configure SMTP authentication in Keycloak for reliable email delivery using XOAUTH2 mechanism and the future of sending messages to identities.
+:summary: Learn how to securely configure SMTP authentication in Keycloak for reliable email delivery using XOAUTH2 mechanism. Explore the the future of sending messages to identities.
 
 Keycloak relies on email functionality for tasks like password resets, user verifications, and notifications.
 While SMTP has long been supported without any required changes, authentication demands evolved.
 
+// TODO: Double check the issue link - I don't see a reference to SMTP there
 With the introduction of link:https://github.com/keycloak/keycloak/issues/21624[Issue #21624], the Keycloak community raised the need for secure and flexible SMTP authentication support.
-As described in the issue the authentication mechanism of a plain password was announced to be deprecated a while ago.
+As described in the issue, the authentication mechanism of a plain password was announced to be deprecated a while ago.
 
-This has led to the implementation of SMTP AUTH mechanism of XOAUTH2, now available in the Keycloak release starting with 26.2.0.
+This has led to implementing the SMTP AUTH mechanism of XOAUTH2, now available in the Keycloak 26.2.
 
+// TODO: Please extend or rewrite the headline ... why bother about about what?
 == Why bother?
 
-While implementing XOAUTH2 I learned a lot more details on how E-Mails are seen from the modern Cloud-Providers perspective.
+While implementing XOAUTH2 I learned a lot more details on how emails are seen from the modern Cloud-Providers perspective.
 Another big impulse came from discussions during the Keycloak DevDay 2025 Hackathon.
-I would like to break apart what happens when we talk about current email functionality of Keycloak.
+I would like to break apart what happens when we talk about the current email functionality of Keycloak.
 
 What happens, and what will be required to happen for probably all coming days of Keycloak, is sending a message of any format to an identity.
 This message could be any format and building a message could be seperated from the actual delivery of that message.
-Second, an identity could have all kinds of message handles and probably Email is not the only one of interest.
-Also the way an Email is sent might no longer be the Simple Mail Transfer Protocol in a cloud world, but some HTTP+Json based API.
+Second, an identity could have all kinds of message handles and probably email is not the only one of interest.
+Also, the way an email is sent might no longer be the Simple Mail Transfer Protocol in a cloud world, but some HTTP+Json based API.
 
 But one step after the other.
 
 == XOAUTH2 configuration in Keycloak
 
-In a realm, navigate to `Realm Settings → Email` and fill in the fields.
+In a realm, navigate to `Realm Settings -> Email` and fill in the fields.
 
 To see the new XOAUTH2 feature enable `authentication` via radio-button and switch from `password` to `token` in the next section.
 Further details can be found in the documentation on https://www.keycloak.org/docs/latest/server_admin/index.html#_email[sending emails].
@@ -37,23 +39,24 @@ Once all the necessary settings for gathering an access token and the username t
 
 As I learned through testing with real providers of XOAUTH2: only Microsoft can be used with the introduced changes and gather an XOAUTH2 token through a client credentials grant using a client secret.
 
-As the documentation already states: Sending an Email with Google would require to implement token gathering through a Client Credentials Grant using a JWT Token.
+As the documentation already states: Sending an email with Google would require implementing token gathering through a Client Credentials Grant using a JWT Token.
 This JWT Token for authenticating the client must be fetched before using some other call to a token endpoint.
-During some experiments I already learned: the configuration of a Google Enterprise account seems to have no possibility to restrict the sender EMail Address, so the CEO's Email Address could be configured using this configuration.
-This feels wrong, but it could be argued to not solve this on Keycloaks end.
+During some experiments I already learned: the configuration of a Google Enterprise account seems to have no possibility to restrict the sender email address, so the CEO's email address could be configured using this configuration.
+This feels wrong, but it could be argued to not solve this on Keycloak's end.
 
 Code refactoring will probably bring provider-specific configuration screens, as it feels not right to stick to all combinations of token gathering mechanisms combined with the client configuration possibilities.
 Please vote on https://github.com/keycloak/keycloak/issues/39610[this issue] to bring Google with SMTP and XOAUTH2.
 
 == Conclusion
-To me this feels like fiddling with a fax-machine while everyone else just sends a photo using a mobile phone.
-So what might be other steps for the bright future of Keycloak in the regards of sending messages to identities?
+
+To me, this feels like fiddling with a fax-machine while everyone else just sends a photo using a mobile phone.
+So what might be other steps for the bright future of Keycloak in regard to sending messages to identities?
 
 Cloud providers and probably many more provide HTTP based messaging APIs which can be used to send someone an email without using SMTP.
-Looking at these and remembering the discussions from the Keycloak DevDay 2025 Hackathon: Why use Email-Addresses at all?
+Looking at these and remembering the discussions from the Keycloak DevDay 2025 Hackathon: Why use email addresses at all?
 An identity could be reached by all kinds of handles.
-In some parts of the planet only mobile phones are used to reach out to somebody.
-In development scenarios even a chat-message to e.g. Slack might be enough.
+In some parts of the planet, only mobile phones are used to reach out to somebody.
+In development scenarios, even a chat-message to, for example, Slack might be enough.
 
-I started a discussion about link:https://github.com/keycloak/keycloak/discussions/37848[Future of sending messages to identities in Keycloak] please let me know what you think.
+I started a discussion about the link:https://github.com/keycloak/keycloak/discussions/37848[Future of sending messages to identities in Keycloak]. Please join the discussion and let me know what you think.
 
