@@ -5,6 +5,7 @@
 :summary: Learn how to securely configure SMTP authentication in Keycloak to use the XOAUTH2 mechanism. Explore the the future of sending messages to identities.
 
 Keycloak relies on email functionality for tasks like password resets, user verifications, and notifications.
+
 A common setup is for Keycloak to authenticate to the SMTP server with a username and password.
 With link:https://github.com/keycloak/keycloak/issues/17432[Issue #17432] the Keycloak community raised the need for token-based authentication with XOAUTH2, as some providers started to deprecate the authentication for SMTP with passwords.
 
