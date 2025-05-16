@@ -5,27 +5,27 @@
 :summary: Learn how to securely configure SMTP authentication in Keycloak for reliable email delivery using XOAUTH2 mechanism. Explore the the future of sending messages to identities.
 
 Keycloak relies on email functionality for tasks like password resets, user verifications, and notifications.
-While SMTP has long been supported without any required changes, authentication demands evolved.
+While Simple Mail Transfer Protocol (SMTP) has long been supported without any required changes, authentication mechanisms and demands have evolved.
 
 With link:https://github.com/keycloak/keycloak/issues/17432[Issue #17432] the Keycloak community raised the need for XOAUTH2.
-As described in the issue, the authentication mechanism of a plain password was announced to be deprecated a while ago.
+As described in the issue, the authentication mechanism of a plain password was announced to be deprecated in some famous SMTP services a while ago.
 
-This has led to extend the SMTP AUTH configuration in Keycloak 26.2.!
-For XAUTH2 a user and a token must be passed to the underlying mail-library.
+This has led to an extended way to configure SMTP authentication in Keycloak 26.2.!
+For XAUTH2 a user and a token must be passed to the underlying https://de.wikipedia.org/wiki/Jakarta_Mail[Jakarta Mail API].
 This token must be gathered before.
-As Keycloaks role is an application, Client Credentials Grant is used.
+As Keycloak as the sender is an application, Client Credentials Grant is used to gather the token.
 The SMTP AUTH configuration in Keycloak now supports all required fields to gather a token with client id and client secret.
 
 == Why this is probably not the final solution?
 
 While implementing XOAUTH2 I learned a lot more details on how emails are seen from the modern Cloud-Providers perspective.
 Another big impulse came from discussions during the link:https://www.keycloak-day.dev/[Keycloak DevDay 2025] Hackathon.
-I would like to break apart what happens when we talk about the current email functionality of Keycloak.
+I would like to break apart the current email functionality of Keycloak.
 
 What happens, and what will be required to happen for probably all coming days of Keycloak, is sending a message of any format to an identity.
 This message could be any format and building a message could be seperated from the actual delivery of that message.
 Second, an identity could have all kinds of message handles and probably email is not the only one of interest.
-Also, the way an email is sent might no longer be the Simple Mail Transfer Protocol in a cloud world, but some HTTP+Json based API.
+Also, the way an email is sent might no longer be SMTP in a cloud world, but some HTTP+Json based API.
 
 But one step after the other.
 
